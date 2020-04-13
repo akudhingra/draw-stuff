@@ -1,0 +1,39 @@
+.App {
+  text-align: center;
+  border: "1";
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.stroke3 {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: 1s linear forwards 3.6s draw;
+}
+
+.stroke2 {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: 1s linear forwards 2.5s draw;
+}
+
+.stroke1 {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: 1s linear forwards 1.4s draw;
+}
+
+.stroke0 {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: 1s linear forwards 0.2s draw;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
