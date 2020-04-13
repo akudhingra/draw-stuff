@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/draw-stuff/static/css/main.7a92f086.chunk.css",
+    "main.js": "/draw-stuff/static/js/main.bb6d7d84.chunk.js",
+    "main.js.map": "/draw-stuff/static/js/main.bb6d7d84.chunk.js.map",
+    "runtime-main.js": "/draw-stuff/static/js/runtime-main.909c6a9f.js",
+    "runtime-main.js.map": "/draw-stuff/static/js/runtime-main.909c6a9f.js.map",
+    "static/css/2.de98b84b.chunk.css": "/draw-stuff/static/css/2.de98b84b.chunk.css",
+    "static/js/2.73350819.chunk.js": "/draw-stuff/static/js/2.73350819.chunk.js",
+    "static/js/2.73350819.chunk.js.map": "/draw-stuff/static/js/2.73350819.chunk.js.map",
+    "index.html": "/draw-stuff/index.html",
+    "precache-manifest.5f5aae87e1cba76a0be9c6cba74d2e4a.js": "/draw-stuff/precache-manifest.5f5aae87e1cba76a0be9c6cba74d2e4a.js",
+    "service-worker.js": "/draw-stuff/service-worker.js",
+    "static/css/2.de98b84b.chunk.css.map": "/draw-stuff/static/css/2.de98b84b.chunk.css.map",
+    "static/css/main.7a92f086.chunk.css.map": "/draw-stuff/static/css/main.7a92f086.chunk.css.map",
+    "static/js/2.73350819.chunk.js.LICENSE.txt": "/draw-stuff/static/js/2.73350819.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/draw-stuff/static/media/roboto-latin-900italic.ebf6d164.woff2"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.909c6a9f.js",
+    "static/css/2.de98b84b.chunk.css",
+    "static/js/2.73350819.chunk.js",
+    "static/css/main.7a92f086.chunk.css",
+    "static/js/main.bb6d7d84.chunk.js"
+  ]
+}
