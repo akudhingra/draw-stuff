@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ButtonGroup } from '@material-ui/core';
+import { Button, ButtonGroup, Slider } from '@material-ui/core';
 import uppercaseCharacters from './uppercase.json';
 import 'typeface-roboto';
 import './App.css';
@@ -32,7 +32,12 @@ const DefaultStrokeSettings = {
   }
 };
 
-const speedScaleChange = 0.1;
+const DefaultSpeedScale = 1.0;
+const SpeedScaleChange = 0.1;
+const MinSpeed = 0.2;
+const MaxSpeed = 7.0;
+
+const DefaultZoomScale = 1.0;
 
 class App extends React.Component {
 
@@ -41,14 +46,13 @@ class App extends React.Component {
 
     this.state = {
       selectedCharacter: uppercaseCharacters[0],
-      zoomScale: 1.0,
-      speedScale: 1.0
+      zoomScale: DefaultZoomScale,
+      speedScale: DefaultSpeedScale
     };
 
     this.handleCharacterClicked = this.handleCharacterClicked.bind(this);
     this.handleKeyPressed = this.handleKeyPressed.bind(this);
-    this.handleIncreaseSpeed = this.handleIncreaseSpeed.bind(this);
-    this.handleDecreaseSpeed = this.handleDecreaseSpeed.bind(this);
+    this.handleSpeedChanged = this.handleSpeedChanged.bind(this);
   }
 
   handleCharacterClicked(character) {
@@ -59,16 +63,8 @@ class App extends React.Component {
     // console.log(event);
   }
 
-  handleIncreaseSpeed() {
-    this.setState((prevState) => ({
-      speedScale: prevState.speedScale - speedScaleChange
-    }));
-  }
-
-  handleDecreaseSpeed() {
-    this.setState((prevState) => ({
-      speedScale: prevState.speedScale + speedScaleChange
-    }));
+  handleSpeedChanged(_, newSpeed) {
+    this.setState({ speedScale: newSpeed });
   }
 
   render() {
@@ -81,18 +77,10 @@ class App extends React.Component {
           <div className="TopHalf">
 
             <div>
-              <div>
-                <ButtonGroup orientation="vertical" color="primary">
-                  <Button>Z+</Button>
-                  <Button>Z-</Button>
-                </ButtonGroup>
-              </div>
-              <div>
-                <ButtonGroup orientation="vertical" color="primary">
-                  <Button onClick={this.handleIncreaseSpeed}>S+</Button>
-                  <Button onClick={this.handleDecreaseSpeed}>S-</Button>
-                </ButtonGroup>
-              </div>
+              <ButtonGroup orientation="vertical" color="primary">
+                <Button>Z+</Button>
+                <Button>Z-</Button>
+              </ButtonGroup>
             </div>
 
             <div className="selected-character">
@@ -101,14 +89,16 @@ class App extends React.Component {
                   const strokeId = `stroke${index}`;
                   const strokeDasharray = stroke.dasharray ?? DefaultStrokeSettings[strokeId].dasharray;
                   const strokeDashoffset = stroke.dashoffset ?? DefaultStrokeSettings[strokeId].dashoffset;
-                  const strokeDurationMs = (stroke.durationMs ?? DefaultStrokeSettings[strokeId].durationMs) * this.state.speedScale;
-                  const strokedelayMs = (stroke.delayMs ?? DefaultStrokeSettings[strokeId].delayMs) * this.state.speedScale;
+                  const strokeDurationMs = (stroke.durationMs ?? DefaultStrokeSettings[strokeId].durationMs) / this.state.speedScale;
+                  const strokedelayMs = (stroke.delayMs ?? DefaultStrokeSettings[strokeId].delayMs) / this.state.speedScale;
                   const strokeAnimation = `${strokeDurationMs}ms linear forwards ${strokedelayMs}ms draw`;
                   return <path d={stroke.path} key={`${selectedCharacter.id}${index}`}
                     strokeDasharray={strokeDasharray} strokeDashoffset={strokeDashoffset} style={{ animation: strokeAnimation }}
                     stroke="black" fill="transparent" strokeLinecap="round" strokeLinejoin="round" strokeWidth="15" />;
                 })}
               </svg>
+              <Slider step={SpeedScaleChange} min={MinSpeed} max={MaxSpeed}
+                valueLabelDisplay="off" value={this.state.speedScale} onChange={this.handleSpeedChanged} />
             </div>
 
             <div>
