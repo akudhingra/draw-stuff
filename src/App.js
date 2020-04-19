@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, ButtonGroup, Slider } from '@material-ui/core';
+import { Button, ButtonGroup, Slider, Grid } from '@material-ui/core';
+import { PlayArrow, FastForward } from '@material-ui/icons';
 import uppercaseCharacters from './uppercase.json';
 import 'typeface-roboto';
 import './App.css';
@@ -109,8 +110,16 @@ class App extends React.Component {
                     stroke="black" fill="transparent" strokeLinecap="round" strokeLinejoin="round" strokeWidth="15" />;
                 })}
               </svg>
-              <Slider step={SpeedScaleChange} min={MinSpeed} max={MaxSpeed}
-                valueLabelDisplay="off" value={this.state.speedScale} onChange={this.handleSpeedChanged} />
+              <div>
+                <Grid container>
+                  <Grid item><PlayArrow /></Grid>
+                  <Grid item xs>
+                    <Slider step={SpeedScaleChange} min={MinSpeed} max={MaxSpeed}
+                      valueLabelDisplay="off" value={this.state.speedScale} onChange={this.handleSpeedChanged} />
+                  </Grid>
+                  <Grid item><FastForward /></Grid>
+                </Grid>
+              </div>
             </div>
 
             <div>
