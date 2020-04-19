@@ -8,28 +8,14 @@
   justify-content: space-around;
 }
 
-.stroke3 {
-  stroke-dasharray: 200;
-  stroke-dashoffset: 200;
-  animation: 1s linear forwards 3.6s draw;
-}
-
-.stroke2 {
-  stroke-dasharray: 200;
-  stroke-dashoffset: 200;
-  animation: 1s linear forwards 2.5s draw;
-}
-
-.stroke1 {
-  stroke-dasharray: 200;
-  stroke-dashoffset: 200;
-  animation: 1s linear forwards 1.4s draw;
-}
-
-.stroke0 {
-  stroke-dasharray: 400;
-  stroke-dashoffset: 400;
-  animation: 1s linear forwards 0.2s draw;
+.TopHalf {
+  border: "1";
+  min-height: 100%;
+  min-width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 @keyframes draw {
