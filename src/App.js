@@ -4,6 +4,10 @@ import uppercaseCharacters from './uppercase.json';
 import 'typeface-roboto';
 import './App.css';
 
+const NoSelectedCharacter = {
+  id: "None",
+  strokes: [{ path: "m0,0" }]
+};
 
 const DefaultStrokeSettings = {
   stroke0: {
@@ -45,7 +49,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      selectedCharacter: uppercaseCharacters[0],
+      selectedCharacter: NoSelectedCharacter,
       zoomScale: DefaultZoomScale,
       speedScale: DefaultSpeedScale
     };
@@ -53,10 +57,17 @@ class App extends React.Component {
     this.handleCharacterClicked = this.handleCharacterClicked.bind(this);
     this.handleKeyPressed = this.handleKeyPressed.bind(this);
     this.handleSpeedChanged = this.handleSpeedChanged.bind(this);
+    this.reloadSelectedCharacter = this.reloadSelectedCharacter.bind(this);
+  }
+
+  reloadSelectedCharacter() {
+    const selectedCharacter = Object.assign({}, this.state.selectedCharacter);
+    this.setState({ selectedCharacter });
   }
 
   handleCharacterClicked(character) {
-    this.setState({ selectedCharacter: character });
+    const selectedCharacter = Object.assign({}, character);
+    this.setState({ selectedCharacter });
   }
 
   handleKeyPressed(event) {
@@ -64,7 +75,8 @@ class App extends React.Component {
   }
 
   handleSpeedChanged(_, newSpeed) {
-    this.setState({ speedScale: newSpeed });
+    const selectedCharacter = Object.assign({}, this.state.selectedCharacter);
+    this.setState({ speedScale: newSpeed, selectedCharacter });
   }
 
   render() {
@@ -84,7 +96,7 @@ class App extends React.Component {
             </div>
 
             <div className="selected-character">
-              <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" >
+              <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" onClick={this.reloadSelectedCharacter}>
                 {selectedCharacter.strokes.map((stroke, index) => {
                   const strokeId = `stroke${index}`;
                   const strokeDasharray = stroke.dasharray ?? DefaultStrokeSettings[strokeId].dasharray;
@@ -92,7 +104,7 @@ class App extends React.Component {
                   const strokeDurationMs = (stroke.durationMs ?? DefaultStrokeSettings[strokeId].durationMs) / this.state.speedScale;
                   const strokedelayMs = (stroke.delayMs ?? DefaultStrokeSettings[strokeId].delayMs) / this.state.speedScale;
                   const strokeAnimation = `${strokeDurationMs}ms linear forwards ${strokedelayMs}ms draw`;
-                  return <path d={stroke.path} key={`${selectedCharacter.id}${index}`}
+                  return <path d={stroke.path} key={`${selectedCharacter.id}.${Date.now()}.${index}`}
                     strokeDasharray={strokeDasharray} strokeDashoffset={strokeDashoffset} style={{ animation: strokeAnimation }}
                     stroke="black" fill="transparent" strokeLinecap="round" strokeLinejoin="round" strokeWidth="15" />;
                 })}
@@ -112,15 +124,22 @@ class App extends React.Component {
 
           <div className="character-selection">
             {uppercaseCharacters.map((character, index) =>
-              selectedCharacter === character
-                ? <Button key={index} size="large" color="primary" variant="contained">{character.id}</Button>
-                : <Button key={index} size="large" onClick={() => this.handleCharacterClicked(character)}>{character.id}</Button>
+              selectedCharacter.id === character.id
+                ?
+                <Button key={index} size="large" onClick={this.reloadSelectedCharacter}
+                  color="primary" variant="contained">
+                  {character.id}
+                </Button>
+                :
+                <Button key={index} size="large" onClick={() => this.handleCharacterClicked(character)}>
+                  {character.id}
+                </Button>
             )}
           </div>
 
         </div>
         <div>
-          Footeer
+          Footer
         </div>
       </div>
     );
