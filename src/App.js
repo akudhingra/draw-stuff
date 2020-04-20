@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, ButtonGroup, Slider, Grid } from '@material-ui/core';
-import { PlayArrow, FastForward } from '@material-ui/icons';
+import { Button, ButtonGroup, Slider, Grid, IconButton } from '@material-ui/core';
+import { PlayArrow, FastForward, ZoomIn, ZoomOut, AttachMoney, Share, Comment } from '@material-ui/icons';
 import uppercaseCharacters from './uppercase.json';
 import 'typeface-roboto';
 import './App.css';
@@ -91,8 +91,8 @@ class App extends React.Component {
 
             <div>
               <ButtonGroup orientation="vertical" color="primary">
-                <Button>Z+</Button>
-                <Button>Z-</Button>
+                <IconButton><ZoomIn /></IconButton>
+                <IconButton><ZoomOut /></IconButton>
               </ButtonGroup>
             </div>
 
@@ -124,9 +124,9 @@ class App extends React.Component {
 
             <div>
               <ButtonGroup orientation="vertical" color="primary">
-                <Button>S</Button>
-                <Button>F</Button>
-                <Button>D</Button>
+                <IconButton><Share /></IconButton>
+                <IconButton><Comment /></IconButton>
+                <IconButton><AttachMoney /></IconButton>
               </ButtonGroup>
             </div>
           </div>
