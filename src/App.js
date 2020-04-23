@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button, ButtonGroup, Slider, Grid, IconButton } from '@material-ui/core';
-import { PlayArrow, FastForward, ZoomIn, ZoomOut, AttachMoney, Share, Comment } from '@material-ui/icons';
+import { PlayArrow, FastForward, Share, Comment } from '@material-ui/icons';
 import uppercaseCharacters from './uppercase.json';
 import 'typeface-roboto';
 import './App.css';
+import Feedback from './components/Feedback';
 
 const NoSelectedCharacter = {
   id: "None",
@@ -52,13 +53,16 @@ class App extends React.Component {
     this.state = {
       selectedCharacter: NoSelectedCharacter,
       zoomScale: DefaultZoomScale,
-      speedScale: DefaultSpeedScale
+      speedScale: DefaultSpeedScale,
+      feedbackOpen: false
     };
 
     this.handleCharacterClicked = this.handleCharacterClicked.bind(this);
     this.handleKeyPressed = this.handleKeyPressed.bind(this);
     this.handleSpeedChanged = this.handleSpeedChanged.bind(this);
     this.reloadSelectedCharacter = this.reloadSelectedCharacter.bind(this);
+    this.handleOpenFeedback = this.handleOpenFeedback.bind(this);
+    this.handleCloseFeedback = this.handleCloseFeedback.bind(this);
   }
 
   reloadSelectedCharacter() {
@@ -80,6 +84,14 @@ class App extends React.Component {
     this.setState({ speedScale: newSpeed, selectedCharacter });
   }
 
+  handleCloseFeedback() {
+    this.setState({ feedbackOpen: false });
+  }
+
+  handleOpenFeedback() {
+    this.setState({ feedbackOpen: true });
+  }
+
   render() {
     const selectedCharacter = this.state.selectedCharacter;
 
@@ -90,10 +102,10 @@ class App extends React.Component {
           <div className="TopHalf">
 
             <div>
-              <ButtonGroup orientation="vertical" color="primary">
+              {/* <ButtonGroup orientation="vertical" color="primary">
                 <IconButton><ZoomIn /></IconButton>
                 <IconButton><ZoomOut /></IconButton>
-              </ButtonGroup>
+              </ButtonGroup> */}
             </div>
 
             <div className="selected-character">
@@ -105,7 +117,7 @@ class App extends React.Component {
                   const strokeDurationMs = (stroke.durationMs ?? DefaultStrokeSettings[strokeId].durationMs) / this.state.speedScale;
                   const strokedelayMs = (stroke.delayMs ?? DefaultStrokeSettings[strokeId].delayMs) / this.state.speedScale;
                   const strokeAnimation = `${strokeDurationMs}ms linear forwards ${strokedelayMs}ms draw`;
-                  return <path d={stroke.path} key={`${selectedCharacter.id}.${Date.now()}.${index}`}
+                  return <path d={stroke.path} key={`${selectedCharacter.id}.${this.state.speedScale}.${index}`}
                     strokeDasharray={strokeDasharray} strokeDashoffset={strokeDashoffset} style={{ animation: strokeAnimation }}
                     stroke="black" fill="transparent" strokeLinecap="round" strokeLinejoin="round" strokeWidth="15" />;
                 })}
@@ -124,9 +136,8 @@ class App extends React.Component {
 
             <div>
               <ButtonGroup orientation="vertical" color="primary">
-                <IconButton><Share /></IconButton>
-                <IconButton><Comment /></IconButton>
-                <IconButton><AttachMoney /></IconButton>
+                <IconButton onClick={() => {}}><Share /></IconButton>
+                <IconButton onClick={this.handleOpenFeedback}><Comment /></IconButton>
               </ButtonGroup>
             </div>
           </div>
@@ -147,9 +158,8 @@ class App extends React.Component {
           </div>
 
         </div>
-        <div>
-          Footer
-        </div>
+        <div>Footer</div>
+        <Feedback open={this.state.feedbackOpen} close={this.handleCloseFeedback} />
       </div>
     );
   }
